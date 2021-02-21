@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane alignment="center" prefHeight="318.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adressbuch.Controller">
+   <columnConstraints>
+      <ColumnConstraints maxWidth="106.0" minWidth="106.0" prefWidth="106.0" />
+      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+      <ColumnConstraints maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <Label prefHeight="40.0" prefWidth="106.0" text="Name" />
+      <Label prefHeight="40.0" prefWidth="106.0" text="Address" GridPane.rowIndex="1" />
+      <Label prefHeight="40.0" prefWidth="106.0" text="Phone" GridPane.rowIndex="2" />
+      <TextField fx:id="fullname" prefHeight="40.0" prefWidth="138.0" promptText="Name" GridPane.columnIndex="1" GridPane.columnSpan="3" />
+      <TextField fx:id="address" prefHeight="40.0" promptText="Address" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+      <TextField fx:id="number" prefHeight="40.0" promptText="Number" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+      <Label fx:id="contactID" alignment="CENTER" contentDisplay="CENTER" prefHeight="32.0" prefWidth="150.0" text="1/1" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+      <Button mnemonicParsing="false" onMouseClicked="#handle_Prev" prefHeight="40.0" prefWidth="106.0" text="&lt;&lt;" GridPane.rowIndex="3" />
+      <Button minHeight="0.0" mnemonicParsing="false" onMouseClicked="#handle_next" prefHeight="40.0" prefWidth="106.0" text="&gt;&gt;" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+      <Button mnemonicParsing="false" onMouseClicked="#handle_add" prefHeight="40.0" prefWidth="106.0" text="Add" GridPane.rowIndex="4" />
+      <Button mnemonicParsing="false" onMouseClicked="#handle_delete" prefHeight="40.0" prefWidth="150.0" text="Delete" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+      <Button mnemonicParsing="false" onMouseClicked="#handle_saveChanges" prefHeight="40.0" prefWidth="106.0" text="Save Changes" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+      <Button mnemonicParsing="false" onMouseClicked="#handle_load" prefHeight="40.0" prefWidth="150.0" text="Load from CSV" GridPane.rowIndex="5" />
+      <Button mnemonicParsing="false" onMouseClicked="#handle_save" prefHeight="40.0" prefWidth="106.0" text="Save to CSV" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+      <Button mnemonicParsing="false" onMouseClicked="#handle_search" prefHeight="40.0" prefWidth="197.0" text="Search" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+      <TextField fx:id="searchterm" prefHeight="40.0" prefWidth="376.0" promptText="Name/Number" GridPane.columnSpan="4" GridPane.rowIndex="7" />
+   </children>
+</GridPane>
