@@ -2,13 +2,13 @@ package adressbuch;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Model{
     final String PATH_TO_FILE = System.getProperty("user.dir") + "\\src\\Adressbuch.csv";
+    File book = new File(PATH_TO_FILE);
+
     int displayedRow=0;
-    ArrayList<String> contacts=new ArrayList<>();
+    ArrayList<Item> contacts=new ArrayList<>();
 
     public void nextRow(){
         if (contacts.size()>=1) {
@@ -37,14 +37,15 @@ public class Model{
     }
 
     public void add(String name, String surname, String number, String adress){
-        String line = "\n" + name + ";" + surname + ";" + number + ";" + adress;
-        contacts.add(line);
+        contacts.add(new Item(name, surname, adress, number));
+        sortContacts();
     }
 
     public void deleteEntry(String number){
         for (int i=0;i<contacts.size();i++) {
-            if (contacts.get(i).contains(number)){
+            if (contacts.get(i).getPhoneNr().equals(number)){
                 contacts.remove(i);
+                System.out.println("Contact Nr. " + number + " removed.");
                 break;
             }
         }
@@ -55,30 +56,59 @@ public class Model{
     }
 
     public void saveChanges(int index, String fullname, String adress, String number){
-        String[] name=fullname.split(" ");
+        if (!fullname.equals("") && !adress.equals("") && !number.equals("")) {
+            if (contacts.size()>0) {
+                String[] name = fullname.split(" ");
 
-        String line = "\n" + name[0] + ";" + name[1] + ";" + number + ";" + adress;
-        contacts.set(index, line);
+                if (name.length == 1) {
+                    String first = name[0];
+                    name = new String[2];
+                    name[0] = first;
+                    name[1] = " ";
+                }
+
+                contacts.set(index, new Item(name[0], name[1], adress, number));
+                System.out.println("Saved changes.");
+            }else{
+                System.out.println("The phonebook is empty. Consider adding a contact instead.");
+            }
+        }else{
+            System.out.println("Error: Can't save Entry with empty fields!");
+        }
+        sortContacts();
     }
 
     public void loadFromCSV()throws Exception{
+        System.out.println("Loading...");
         BufferedReader br=new BufferedReader(new FileReader(PATH_TO_FILE));
         contacts.clear();
+        Item item;
         String line;
-        while ((line = br.readLine())!=null){
-            contacts.add(line);
+        br.readLine();
+        while ((line=br.readLine())!=null){
+            item = new Item(line, ";");
+            contacts.add(item);
         }
         br.close();
+        System.out.println("finished loading.");
+    }
+
+    public void sortContacts(){
+        contacts.sort(Item::compareTo);
     }
 
     public void saveToCSV()throws Exception{
+        System.out.println("Saving...");
         BufferedWriter bw=new BufferedWriter(new FileWriter(PATH_TO_FILE));
-
-        for (String contact :contacts) {
-            bw.write(contact);
+        bw.write("CSVFILE CONTACTS");
+        for (Item contact :contacts) {
+            bw.newLine();
+            bw.write(contact.toString());
+            System.out.println(contact);
         }
 
         bw.close();
+        System.out.println("finished saving.");
     }
 
     /* mein versuch an einer sortier Methode.
@@ -108,17 +138,34 @@ public class Model{
 
      */
 
-    public String[] search(String term){
-        displayedRow=0;
-        for (String contact : contacts) {
-            if (contact.contains(term))
-                return contact.split(";");
-            displayedRow++;
+    public Model()throws Exception{
+        if (book.createNewFile()){
+            System.out.println("File created.");
         }
-        return new String[4];
+        loadFromCSV();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            public void run() {
+                try {
+                    saveToCSV();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }, "Shutdown-thread"));
     }
 
-    public ArrayList<String> getContacts() {
+    public Item search(String term){
+        displayedRow=0;
+        for (Item contact : contacts) {
+            if (contact.toString().contains(term))
+                return contact;
+            displayedRow++;
+        }
+        return contacts.get(displayedRow);
+    }
+
+    public ArrayList<Item> getContacts() {
         return contacts;
     }
 }

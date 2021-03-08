@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,8 +29,12 @@ public class Controller implements Initializable {
     @FXML
     TextField searchterm=new TextField();
 
+    public Controller() throws Exception {
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        update(true);
     }
 
     public static void show(Stage stage){
@@ -39,6 +44,7 @@ public class Controller implements Initializable {
 
             stage.setTitle("Moin");
             stage.setScene(new Scene(root));
+
             stage.show();
 
         }catch(Exception ignored){
@@ -79,10 +85,10 @@ public class Controller implements Initializable {
     }
 
     public void handle_search(){
-        String[] contact=model.search(searchterm.getText());
-        fullname.setText(contact[0] + " " + contact[1]);
-        address.setText(contact[3]);
-        number.setText(contact[2]);
+        Item contact=model.search(searchterm.getText());
+        fullname.setText(contact.getFirstName() + " " + contact.getLastName());
+        address.setText(contact.getAddress());
+        number.setText(contact.getPhoneNr());
         update(true);
     }
 
@@ -97,11 +103,11 @@ public class Controller implements Initializable {
         }
 
         if (model.getContacts().size()>=1) {
-            String[] split = model.getContacts().get(currentIndex).split(";");
-            String name = split[0] + " " + split[1];
+            Item contact = model.getContacts().get(currentIndex);
+            String name =contact.getFirstName() + " " + contact.getLastName();
             fullname.setText(name);
-            number.setText(split[2]);
-            address.setText(split[3]);
+            number.setText(contact.getPhoneNr());
+            address.setText(contact.getAddress());
             contactID.setText((currentIndex + 1) + "/" + model.getContacts().size());
         }
     }

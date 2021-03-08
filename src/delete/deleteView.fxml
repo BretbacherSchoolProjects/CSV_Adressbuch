@@ -19,6 +19,6 @@
    <children>
       <TextField fx:id="txtf_contactToDelete" prefHeight="154.0" prefWidth="425.0" promptText="Number" GridPane.columnIndex="1" />
       <Label text="Who do you want to delete?" />
-      <Button mnemonicParsing="false" onMouseClicked="#handle_delete" prefHeight="167.0" prefWidth="600.0" text="Button" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+      <Button mnemonicParsing="false" onMouseClicked="#handle_delete" prefHeight="167.0" prefWidth="600.0" text="Delete" GridPane.columnSpan="2" GridPane.rowIndex="1" />
    </children>
 </GridPane>

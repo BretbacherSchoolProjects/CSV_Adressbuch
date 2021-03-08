@@ -50,7 +50,7 @@ public class DeleteController implements Initializable {
     }
 
     public void handle_delete(){
-        model.delete(parent.getModel(), txtf_contactToDelete.getText());
+        model.delete(parent.getModel(), parent, txtf_contactToDelete.getText());
         stage.close();
         parent.update(false);
     }
